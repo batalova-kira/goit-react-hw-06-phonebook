@@ -13,20 +13,16 @@ const Contactlist = () => {
       if (filter.trim() === '') {
         return contacts;
       }
-      console.log(contacts);
       return item.name.toLowerCase().includes(filter.toLowerCase());
     });
   };
   const resultContacts = visibleContacts();
-  console.log(resultContacts);
+
   return (
     <List>
       {resultContacts.map(item => (
         <ContactItem key={item.id}>
-          <ContactCard
-            contact={item}
-            // onDelete={dispatch(onDeleteDevice(item.id))}
-          />
+          <ContactCard contact={item} />
         </ContactItem>
       ))}
     </List>
