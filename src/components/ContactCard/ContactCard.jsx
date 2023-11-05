@@ -6,7 +6,7 @@ import { onDeleteDevice, selectContacts } from 'redux/contactsSlice';
 const ContactCard = () => {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
-
+  console.log(contacts);
   return (
     <CardWrapper>
       <Info>{contacts.name}</Info>
