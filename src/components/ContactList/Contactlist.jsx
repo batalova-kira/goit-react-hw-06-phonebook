@@ -24,8 +24,8 @@ const Contactlist = () => {
       {resultContacts.map(item => (
         <ContactItem key={item.id}>
           <ContactCard
-          // contact={item}
-          // onDelete={dispatch(onDeleteDevice(item.id))}
+            contact={item}
+            // onDelete={dispatch(onDeleteDevice(item.id))}
           />
         </ContactItem>
       ))}
