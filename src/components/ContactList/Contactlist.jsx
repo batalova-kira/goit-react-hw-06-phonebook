@@ -1,17 +1,12 @@
 import ContactCard from 'components/ContactCard/ContactCard';
 import React from 'react';
 import { ContactItem, List } from './ContactList.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  onDeleteDevice,
-  selectContacts,
-  selectFilter,
-} from 'redux/contactsSlice';
+import { useSelector } from 'react-redux';
+import { selectContacts, selectFilter } from 'redux/contactsSlice';
 
 const Contactlist = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
-  const dispatch = useDispatch();
 
   const visibleContacts = () => {
     return contacts.filter(item => {
