@@ -1,12 +1,19 @@
 import React from 'react';
 import { BtnClose, CardWrapper, Info } from './ContactCard.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { onDeleteDevice, selectContacts } from 'redux/contactsSlice';
 
-const ContactCard = ({ contact: { name, number, id }, onDelete }) => {
+const ContactCard = () => {
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
   return (
     <CardWrapper>
-      <Info>{name}</Info>
-      <Info>{number}</Info>
-      <BtnClose onClick={() => onDelete(id)}>Delete</BtnClose>
+      <Info>{contacts.name}</Info>
+      <Info>{contacts.number}</Info>
+      <BtnClose onClick={() => dispatch(onDeleteDevice(contacts.id))}>
+        Delete
+      </BtnClose>
     </CardWrapper>
   );
 };

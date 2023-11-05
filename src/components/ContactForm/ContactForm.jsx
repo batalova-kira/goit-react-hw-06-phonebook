@@ -1,9 +1,10 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { nanoid } from 'nanoid';
 import { ErrMessage, Input, StyledForm } from './ContactForm.styled';
 import { BtnClose } from 'components/ContactCard/ContactCard.styled';
-import { useDispatch } from 'react-redux';
-import { onAddContact } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { onAddContact, selectContacts } from 'redux/contactsSlice';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -13,8 +14,26 @@ const contactSchema = Yup.object().shape({
   number: Yup.string().min(8, 'Too Short!').required('This field is required!'),
 });
 
-export const ContactForm = ({ onAdd }) => {
+export const ContactForm = () => {
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+
+  const addContact = newContact => {
+    const hasContact = contacts.some(
+      ({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
+    );
+
+    if (hasContact) {
+      alert(`${newContact.name} is already in contacts`);
+      return;
+    }
+    const finalContact = {
+      ...newContact,
+      id: nanoid(),
+    };
+    dispatch(onAddContact(finalContact));
+  };
+
   return (
     <Formik
       initialValues={{
@@ -23,7 +42,7 @@ export const ContactForm = ({ onAdd }) => {
       }}
       validationSchema={contactSchema}
       onSubmit={(values, actions) => {
-        dispatch(onAddContact(values.name, values.number));
+        addContact(values);
         actions.resetForm({
           values: {
             name: '',

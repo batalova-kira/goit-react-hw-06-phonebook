@@ -1,15 +1,32 @@
 import ContactCard from 'components/ContactCard/ContactCard';
 import React from 'react';
 import { ContactItem, List } from './ContactList.styled';
-import { useDispatch } from 'react-redux';
-import { onDeleteDevice } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  onDeleteDevice,
+  selectContacts,
+  selectFilter,
+} from 'redux/contactsSlice';
 
-const Contactlist = ({ items }) => {
+const Contactlist = () => {
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
+  const visibleContacts = () => {
+    return contacts.filter(item => {
+      if (filter.trim() === '') {
+        return contacts;
+      }
+      console.log(contacts);
+      return item.name.toLowerCase().includes(filter.toLowerCase());
+    });
+  };
+  const resultContacts = visibleContacts();
+  console.log(resultContacts);
   return (
     <List>
-      {items.map(item => (
+      {resultContacts.map(item => (
         <ContactItem key={item.id}>
           <ContactCard
             contact={item}
